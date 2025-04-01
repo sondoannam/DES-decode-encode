@@ -381,12 +381,14 @@ connection_frame.grid(row=1, column=0, columnspan=2, sticky="ew", pady=(0, 15), 
 connection_frame.grid_columnconfigure(1, weight=1)
 connection_frame.grid_columnconfigure(3, weight=1)
 
-# Host input
-host_label = ttk.Label(connection_frame, text="Host:")
+# Host input with better guidance
+host_label = ttk.Label(connection_frame, text="Server IP:")
 host_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 entry_host = ttk.Entry(connection_frame)
 entry_host.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
-entry_host.insert(0, "localhost")  # Default value
+entry_host.insert(0, "")  # Empty by default to encourage entering the server's IP address
+host_hint = ttk.Label(connection_frame, text="(Enter the receiver's IP address)", font=("Segoe UI", 8))
+host_hint.grid(row=1, column=1, padx=10, sticky="w")
 
 # Port input
 port_label = ttk.Label(connection_frame, text="Port:")

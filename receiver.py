@@ -277,10 +277,22 @@ def split_binary_string(binary_string):
 
     return smaller_strings
 
+def get_local_ip():
+    """Get the local IP address to display in the UI"""
+    try:
+        # Create a temporary socket to get the local IP address
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # Doesn't need to be reachable, just used to get the interface
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except:
+        return "Unknown"
 
 # Updated UI code
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("localhost", 8080))
+server.bind(("0.0.0.0", 8080))  # Changed from "localhost" to "0.0.0.0" to accept external connections
 server.listen()
 
 def accept():
@@ -297,6 +309,9 @@ def accept():
     key16 = keyschedule(key)
 
     starttime = time.time()
+
+    # Create results directory if it doesn't exist
+    os.makedirs("results", exist_ok=True)
 
     binary_data = ''.join(format(byte, '08b') for byte in data)
     fileEncode = open("results/ReceivedEncode.txt", "wb")
@@ -426,8 +441,10 @@ root.grid_columnconfigure(0, weight=1)
 main_container.grid_rowconfigure(2, weight=1)
 main_container.grid_columnconfigure(0, weight=1)
 
-# Initial status message
-update_status("Server initialized. Waiting for connections...")
+# Get local IP and display initial status messages
+local_ip = get_local_ip()
+update_status(f"Server initialized. Listening on {local_ip}:8080")
+update_status("Tell the sender to use this IP address to connect.")
 
 # Set window size and center it
 window_width = 500

@@ -89,6 +89,44 @@ A modern GUI application for secure file transfer using DES encryption. This sys
 5. Enter the same encryption key used in the receiver.
 6. Click "Send File" to encrypt and send the file.
 
+## Using the Application on a Local Network (LAN)
+
+To use the application between two different computers on the same local network:
+
+### Setting Up the Receiver (Server)
+
+1. Make sure both computers are connected to the same network.
+2. On the receiver computer, run the receiver application as described above.
+3. The application will display its IP address in the status window. Note this address.
+4. If you don't see the IP address, you can find it by:
+   - On Windows: Open Command Prompt and type `ipconfig`
+   - On macOS/Linux: Open Terminal and type `ifconfig` or `ip addr`
+   - Look for IPv4 Address under your active network connection (usually starts with 192.168.x.x or 10.x.x.x)
+
+### Setting Up the Sender (Client)
+
+1. On the sender computer, run the sender application.
+2. In the "Server IP" field, enter the IP address of the receiver computer that you noted earlier.
+3. Keep the default port (8080) unless you've changed it on the receiver.
+4. Select your file, enter the encryption key, and click "Send File".
+
+### Troubleshooting Network Connections
+
+If the sender cannot connect to the receiver:
+
+1. **Firewall Settings**: Make sure the firewall on the receiver computer allows incoming connections on port 8080.
+   - On Windows: Open Windows Defender Firewall → Advanced Settings → Inbound Rules → New Rule → Port
+   - On macOS: Open System Preferences → Security & Privacy → Firewall → Firewall Options
+   - On Linux: Use `sudo ufw allow 8080/tcp` (for Ubuntu/Debian)
+
+2. **Verify Network**: Ensure both computers are on the same network by comparing IP address patterns.
+
+3. **Test Connectivity**: From the sender computer, try to ping the receiver's IP address:
+   - Open Command Prompt/Terminal and type `ping [receiver-ip-address]`
+   - If ping fails, there might be network isolation or firewall issues
+
+4. **Port Conflicts**: If another application is using port 8080, change the port in both applications.
+
 ## Usage Notes
 
 - Both sender and receiver must use the same encryption key.
